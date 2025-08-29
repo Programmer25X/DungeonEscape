@@ -27,7 +27,7 @@ public:
 	UPROPERTY(EditAnywhere) FVector distanceToMove; // Distance to move from the starting location
 	UPROPERTY(EditAnywhere) float timeMoving = 4.0f; // Time in seconds to move to the target location
 
-	UPROPERTY(VisibleAnywhere) bool isMovingUpwards = false; // Whether the owner is currently moving
+	UPROPERTY(VisibleAnywhere) bool isMoving = false; // Whether the owner is currently moving
 
 	FVector startLocation; // Starting location of the owner
 	FVector targetLocation; // Target location to move to

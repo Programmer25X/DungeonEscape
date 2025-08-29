@@ -29,7 +29,7 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction); 
 
 
-	if (isMovingUpwards)
+	if (isMoving)
 	{	
 		targetLocation = startLocation + distanceToMove;
 	}
@@ -45,7 +45,6 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 		float moveSpeed = distanceToMove.Length() / timeMoving;
 		FVector newLocation = FMath::VInterpConstantTo(currentLocation, targetLocation, DeltaTime, moveSpeed);
 		GetOwner()->SetActorLocation(newLocation); // Set the new location of the owner
-		UE_LOG(LogTemp, Display, TEXT("Door moving..."));
 	}
 }
 
