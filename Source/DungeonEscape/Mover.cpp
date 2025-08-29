@@ -2,6 +2,7 @@
 
 
 #include "Mover.h"
+#include "Math/UnrealMathUtility.h"
 
 // Sets default values for this component's properties
 UMover::UMover()
@@ -19,19 +20,32 @@ void UMover::BeginPlay()
 {
 	Super::BeginPlay();
 
-	startLocation = GetOwner()->GetActorLocation(); // Store the starting location of the owner
-	UE_LOG(LogTemp, Warning, TEXT("My owner is %s and my location is %s"), *GetOwner()->GetActorNameOrLabel(), *startLocation.ToCompactString()); // Log the name of the owner
-	
+	startLocation = GetOwner()->GetActorLocation(); // Store the starting location of the owner	
 }
-
 
 // Called every frame
 void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction); 
+
+
+	if (isMovingUpwards)
+	{	
+		targetLocation = startLocation + distanceToMove;
+	}
+	else
+	{
+		targetLocation = startLocation;
+	}
 
 	FVector currentLocation = GetOwner()->GetActorLocation(); // Get the current location of the owner
-	currentLocation.Z += (100.0f * DeltaTime); // Move the owner up at 100 units per second
-	GetOwner()->SetActorLocation(currentLocation); // Set the new location of the owner
+
+	if (!(currentLocation.Equals(targetLocation)))
+	{
+		float moveSpeed = distanceToMove.Length() / timeMoving;
+		FVector newLocation = FMath::VInterpConstantTo(currentLocation, targetLocation, DeltaTime, moveSpeed);
+		GetOwner()->SetActorLocation(newLocation); // Set the new location of the owner
+		UE_LOG(LogTemp, Display, TEXT("Door moving..."));
+	}
 }
 
