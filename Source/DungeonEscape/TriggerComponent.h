@@ -31,14 +31,11 @@ public:
 	UFUNCTION() void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	void SetTrigger(bool triggerState); // Function to set the trigger state
-	bool GetIsTriggerActivated(); // Function to get the trigger state
-	UMover* GetMoverComponent(); // Function to get the Mover component
-	bool GetIsPressurePlate(); // Function to check if this trigger is a pressure plate
-
 
 private:
 	UMover* moverComponent; // Reference to the Mover component
 	UPROPERTY(EditAnywhere) AActor* moveActor; // Actor that contains the Mover component
 	UPROPERTY(EditAnywhere) bool isPressurePlate = false; // Whether this trigger acts as a pressure plate
 	UPROPERTY(VisibleAnywhere) bool isTriggerActivated = false; // Whether the trigger is currently activated
+	UPROPERTY(VisibleAnywhere) int32 numOfActivators = 0; // Number of activators currently overlapping the trigger
 };
