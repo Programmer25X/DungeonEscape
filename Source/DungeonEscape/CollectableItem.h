@@ -23,6 +23,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	FString GetItemName(); // Getter for itemName
+
 private:
 	UPROPERTY(editAnywhere) FString itemName; // Name of the collectable item
 
