@@ -16,13 +16,9 @@ void UTriggerComponent::BeginPlay()
 
 	if (moveActor)
 	{
-		mover = moveActor->FindComponentByClass<UMover>();
+		moverComponent = moveActor->FindComponentByClass<UMover>(); // Find the Mover component in the specified actor
 
-		if (mover)
-		{
-			
-		}
-		else
+		if (!moverComponent)
 		{
 			UE_LOG(LogTemp, Error, TEXT("Failed to find 'Mover' component."));
 		}
@@ -34,8 +30,8 @@ void UTriggerComponent::BeginPlay()
 
 	if (isPressurePlate)
 	{
-		OnComponentBeginOverlap.AddDynamic(this, &UTriggerComponent::OnOverlapBegin);
-		OnComponentEndOverlap.AddDynamic(this, &UTriggerComponent::OnOverlapEnd);
+		OnComponentBeginOverlap.AddDynamic(this, &UTriggerComponent::OnOverlapBegin); // Bind the overlap event
+		OnComponentEndOverlap.AddDynamic(this, &UTriggerComponent::OnOverlapEnd); // Bind the end overlap event
 	}
 }
 
@@ -44,18 +40,42 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 }
 
+/// <summary>
+/// Sets the trigger state and updates the mover component accordingly.
+/// </summary>
+/// <param name="triggerState"></param>
+void UTriggerComponent::SetTrigger(bool triggerState)
+{
+	isTriggerActivated = triggerState;
+	
+	if (moverComponent)
+	{
+		moverComponent->SetIsMovingUpwards(isTriggerActivated); // Set whether the door moves up or down based on the trigger's state
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s Mover component is null and therefore the trigger will not activate!"), *GetOwner()->GetActorNameOrLabel());
+	}
+}
+
 void UTriggerComponent::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {	
-	if (mover)
+	if (moverComponent && OtherActor && OtherActor->ActorHasTag("PressurePlateActivator") && !isTriggerActivated)
 	{
-		mover->isMoving = true;
+		SetTrigger(true); // Start moving upwards when overlap begins
 	}
 }
 
 void UTriggerComponent::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (mover)
+	if (moverComponent && OtherActor && OtherActor->ActorHasTag("PressurePlateActivator") && isTriggerActivated)
 	{
-		mover->isMoving = false;
+		SetTrigger(false); // Stop moving downwards when overlap ends	
 	}
 }
+
+bool UTriggerComponent::GetIsTriggerActivated() { return isTriggerActivated; } // Returns whether the trigger is currently activated
+
+UMover* UTriggerComponent::GetMoverComponent() { return moverComponent; } // Returns the reference to the Mover component
+
+bool UTriggerComponent::GetIsPressurePlate() { return isPressurePlate; } // Returns whether this trigger acts as a pressure plate

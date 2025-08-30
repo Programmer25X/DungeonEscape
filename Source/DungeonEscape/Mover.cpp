@@ -21,6 +21,7 @@ void UMover::BeginPlay()
 	Super::BeginPlay();
 
 	startLocation = GetOwner()->GetActorLocation(); // Store the starting location of the owner	
+	SetIsMovingUpwards(false); // Initialize the movement direction to downwards
 }
 
 // Called every frame
@@ -28,23 +29,20 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction); 
 
-
-	if (isMoving)
-	{	
-		targetLocation = startLocation + distanceToMove;
-	}
-	else
-	{
-		targetLocation = startLocation;
-	}
-
 	FVector currentLocation = GetOwner()->GetActorLocation(); // Get the current location of the owner
 
-	if (!(currentLocation.Equals(targetLocation)))
+	if (!(currentLocation.Equals(targetLocation))) // Only move if not already at the target location
 	{
-		float moveSpeed = distanceToMove.Length() / timeMoving;
-		FVector newLocation = FMath::VInterpConstantTo(currentLocation, targetLocation, DeltaTime, moveSpeed);
+		float moveSpeed = distanceToMove.Length() / timeMoving; // Calculate the speed based on distance and time
+		FVector newLocation = FMath::VInterpConstantTo(currentLocation, targetLocation, DeltaTime, moveSpeed); // Interpolate towards the target location at a constant speed
 		GetOwner()->SetActorLocation(newLocation); // Set the new location of the owner
 	}
 }
 
+bool UMover::GetIsMovingUpwards() { return isMovingUpwards; } // Getter for isMovingUpwards
+
+void UMover::SetIsMovingUpwards(bool shouldMoveUpwards)  // Toggle the movement direction and update the target location
+{ 
+	isMovingUpwards = shouldMoveUpwards;
+	targetLocation = isMovingUpwards ? startLocation + distanceToMove : startLocation; // Ternary operator to set the target location based on the movement direction
+}
