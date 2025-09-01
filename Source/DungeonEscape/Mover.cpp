@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Mover.h"
+#include "Engine/EngineBaseTypes.h"
+#include "Components/ActorComponent.h"
 #include "Math/UnrealMathUtility.h"
 
 // Sets default values for this component's properties
@@ -22,6 +23,7 @@ void UMover::BeginPlay()
 
 	startLocation = GetOwner()->GetActorLocation(); // Store the starting location of the owner	
 	SetIsMovingUpwards(false); // Initialize the movement direction to downwards
+	
 }
 
 // Called every frame
@@ -46,3 +48,4 @@ void UMover::SetIsMovingUpwards(bool shouldMoveUpwards)  // Toggle the movement 
 	isMovingUpwards = shouldMoveUpwards;
 	targetLocation = isMovingUpwards ? startLocation + distanceToMove : startLocation; // Ternary operator to set the target location based on the movement direction
 }
+
