@@ -20,12 +20,12 @@ void UTriggerComponent::BeginPlay()
 
 		if (!moverComponent)
 		{
-			UE_LOG(LogTemp, Error, TEXT("Failed to find 'Mover' component."));
+			UE_LOG(LogTemp, Error, TEXT("Failed to find 'Mover' component.")); // Log an error if the Mover component is not found
 		}
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("MoveActor is null."));
+		UE_LOG(LogTemp, Error, TEXT("MoveActor is null.")); // Log an error if moveActor is not set
 	}
 
 	if (isPressurePlate)

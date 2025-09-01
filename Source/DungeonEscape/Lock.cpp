@@ -32,6 +32,7 @@ void ALock::BeginPlay()
 void ALock::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
 
 }
 
