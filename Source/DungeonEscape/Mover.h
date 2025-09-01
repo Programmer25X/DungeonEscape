@@ -33,6 +33,6 @@ private:
 	FVector targetLocation; // Target location to move to
 		
 public:
-	bool GetIsMovingUpwards();
-	void SetIsMovingUpwards(bool shouldMoveUpwards);
+	bool GetIsMovingUpwards(); // Getter for isMovingUpwards
+	void SetIsMovingUpwards(bool shouldMoveUpwards); // Setter for isMovingUpwards
 };
