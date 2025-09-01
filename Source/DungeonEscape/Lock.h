@@ -4,16 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "CollectableItem.generated.h"
+#include "TriggerComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Lock.generated.h"
 
 UCLASS()
-class DUNGEONESCAPE_API ACollectableItem : public AActor
+class DUNGEONESCAPE_API ALock : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ACollectableItem();
+	ALock();
 
 protected:
 	// Called when the game starts or when spawned
@@ -24,5 +26,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	UPROPERTY(EditAnywhere) FString itemName; // Name of the collectable item
+
+	UPROPERTY(VisibleAnywhere) USceneComponent* rootComp; // Root component
+	UPROPERTY(VisibleAnywhere) UTriggerComponent* triggerComp; // Trigger component
+	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* keyMesh; // Key mesh component
 };
