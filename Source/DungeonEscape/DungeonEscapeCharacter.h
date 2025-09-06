@@ -94,6 +94,10 @@ public:
 	/** Returns first person camera component **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
-	void Interact();
+	void Interact(); // Interact with in-game objects
+
+private:
+
+	UPROPERTY(EditAnywhere, meta = (ClampMin = "300.0")) float interactDistance = 300.0f; // How far the player can reach to interact with in-game objects. 
 };
 

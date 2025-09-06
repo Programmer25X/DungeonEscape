@@ -71,7 +71,9 @@ void ADungeonEscapeCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 
 void ADungeonEscapeCharacter::Interact()
 {
-	UE_LOG(LogTemp, Display, TEXT("Interact called from C++")); // For now, just log to output 
+	FVector startLocation = FirstPersonCameraComponent->GetComponentLocation(); // Gets the camera location
+	FVector endLocation = startLocation + (FirstPersonCameraComponent->GetForwardVector() * interactDistance); // Gets the forward vector and multiplies it by the interact distance
+	DrawDebugLine(GetWorld(), startLocation, endLocation, FColor::Green, false, 5.0f); // Draws a debug line to visualise the raycast
 }
 
 
