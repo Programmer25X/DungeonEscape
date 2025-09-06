@@ -3,6 +3,8 @@
 #include "DungeonEscapeCharacter.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
+#include "CollectableItem.h"
+#include "Lock.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "EnhancedInputComponent.h"
@@ -73,9 +75,39 @@ void ADungeonEscapeCharacter::Interact()
 {
 	FVector startLocation = FirstPersonCameraComponent->GetComponentLocation(); // Gets the camera location
 	FVector endLocation = startLocation + (FirstPersonCameraComponent->GetForwardVector() * interactDistance); // Gets the forward vector and multiplies it by the interact distance
-	DrawDebugLine(GetWorld(), startLocation, endLocation, FColor::Green, false, 5.0f); // Draws a debug line to visualise the raycast
-}
+	DrawDebugLine(GetWorld(), startLocation, endLocation, FColor::Green, false, 5.0f); // Draws a debug line to visualise the raycast.
 
+	FCollisionShape interactionSphere = FCollisionShape::MakeSphere(interactSphereRadius); // Creates a sphere for the raycast to pass into the trace function.
+	DrawDebugSphere(GetWorld(), endLocation, interactSphereRadius, 12, FColor::Green, false, 5.0f); // Draws a debug sphere to visualise the raycast.
+
+	FHitResult hitResult; // Variable to store hit result data.
+	bool isHittingObject = GetWorld()->SweepSingleByChannel(hitResult, startLocation, endLocation, FQuat::Identity, ECC_GameTraceChannel2, interactionSphere); // Performs the sweep (sphere trace) using the defined parameters.
+	
+	if (isHittingObject)
+	{
+		AActor* hitActor = hitResult.GetActor(); // Gets the actor that was hit.
+		UE_LOG(LogTemp, Display, TEXT("You are interacting with %s"), *hitActor->GetActorNameOrLabel()); // Logs the name of the actor that was hit.	
+
+		if(hitActor->ActorHasTag("KeyItem")) // Checks if the hit actor has the "Collectible" tag.
+		{
+			ACollectableItem* keyItem = Cast<ACollectableItem>(hitActor);
+
+			if(keyItem)
+			{
+				FString keyItemName = keyItem->GetItemName(); // Gets the name of the collectable item.
+				UE_LOG(LogTemp, Display, TEXT("You have collected: %s"), *keyItemName); // Logs the name of the collected item.
+			}
+		}
+		else if (hitActor->ActorHasTag("Lock"))
+		{
+			UE_LOG(LogTemp, Display, TEXT("You are interacting with a lock")); // Logs that the player is interacting with a lock.
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("You are not interacting with anything")); // Logs that nothing was hit.
+	}
+}
 
 void ADungeonEscapeCharacter::MoveInput(const FInputActionValue& Value)
 {
