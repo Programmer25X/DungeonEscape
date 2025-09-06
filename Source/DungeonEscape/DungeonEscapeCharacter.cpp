@@ -3,7 +3,7 @@
 #include "DungeonEscapeCharacter.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
-#include "CollectableItem.h"
+#include "KeyItem.h"
 #include "Lock.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -90,17 +90,21 @@ void ADungeonEscapeCharacter::Interact()
 
 		if(hitActor->ActorHasTag("KeyItem")) // Checks if the hit actor has the "Collectible" tag.
 		{
-			ACollectableItem* keyItem = Cast<ACollectableItem>(hitActor);
+			AKeyItem* keyItem = Cast<AKeyItem>(hitActor);
 
 			if(keyItem)
 			{
 				FString keyItemName = keyItem->GetItemName(); // Gets the name of the collectable item.
-				UE_LOG(LogTemp, Display, TEXT("You have collected: %s"), *keyItemName); // Logs the name of the collected item.
+				UE_LOG(LogTemp, Display, TEXT("You have key: %s"), *keyItemName); // Logs the name of the collected item.
 			}
 		}
 		else if (hitActor->ActorHasTag("Lock"))
 		{
-			UE_LOG(LogTemp, Display, TEXT("You are interacting with a lock")); // Logs that the player is interacting with a lock.
+			ALock* lock = Cast<ALock>(hitActor);
+			if (lock)
+			{
+				UE_LOG(LogTemp, Display, TEXT("You are interacting with a lock: %s"), *lock->GetLockName()); // Logs that the player is interacting with a lock.
+			}
 		}
 	}
 	else

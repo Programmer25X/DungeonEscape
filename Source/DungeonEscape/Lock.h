@@ -31,10 +31,11 @@ private:
 	UPROPERTY(VisibleAnywhere) UTriggerComponent* triggerComp; // Trigger component
 	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* keyItemMesh; // Key mesh component
 
-	UPROPERTY(EditAnywhere) FString keyItemName; // Name of the lock
+	UPROPERTY(EditAnywhere) FString lockName; // Name of the lock
 	UPROPERTY(VisibleAnywhere) bool isKeyItemPlaced = true; // Whether the key item is placed in the lock
 
 public:
 	bool GetIsKeyItemPlaced(); // Getter for isKeyItemPlaced
 	void SetIsKeyItemPlaced(bool keyItemPlaced); // Setter for isKeyItemPlaced
+	FString GetLockName(); // Getter for lockName
 };

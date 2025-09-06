@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "CollectableItem.generated.h"
+#include "KeyItem.generated.h"
 
 UCLASS()
-class DUNGEONESCAPE_API ACollectableItem : public AActor
+class DUNGEONESCAPE_API AKeyItem : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ACollectableItem();
+	AKeyItem();
 
 protected:
 	// Called when the game starts or when spawned

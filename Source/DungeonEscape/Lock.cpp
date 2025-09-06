@@ -25,7 +25,7 @@ ALock::ALock()
 void ALock::BeginPlay()
 {
 	Super::BeginPlay();
-	SetIsKeyItemPlaced(true); // Initialize the key item placement status to false
+	SetIsKeyItemPlaced(false); // Initialize the key item placement status to false
 }
 
 // Called every frame
@@ -35,6 +35,8 @@ void ALock::Tick(float DeltaTime)
 	
 
 }
+
+FString ALock::GetLockName() { return lockName; } // Getter for lockName	
 
 /// <summary>
 /// Returns whether the key item has been placed in the lock.
