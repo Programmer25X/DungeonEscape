@@ -100,5 +100,8 @@ private:
 
 	UPROPERTY(EditAnywhere, meta = (ClampMin = "300.0")) float interactDistance = 300.0f; // How far the player can reach to interact with in-game objects. 
 	UPROPERTY(EditAnywhere, meta = (ClampMin = "10.0")) float interactSphereRadius = 10.0f; // The radius of the sphere trace for interaction
+
+	UPROPERTY(VisibleAnywhere) TArray<FString> playerInventory; // The player's inventory to store collected items.
+
 };
 

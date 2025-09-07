@@ -85,8 +85,7 @@ void ADungeonEscapeCharacter::Interact()
 	
 	if (isHittingObject)
 	{
-		AActor* hitActor = hitResult.GetActor(); // Gets the actor that was hit.
-		UE_LOG(LogTemp, Display, TEXT("You are interacting with %s"), *hitActor->GetActorNameOrLabel()); // Logs the name of the actor that was hit.	
+		AActor* hitActor = hitResult.GetActor(); // Gets the actor that was hit.	
 
 		if(hitActor->ActorHasTag("KeyItem")) // Checks if the hit actor has the "Collectible" tag.
 		{
@@ -94,8 +93,9 @@ void ADungeonEscapeCharacter::Interact()
 
 			if(keyItem)
 			{
-				FString keyItemName = keyItem->GetItemName(); // Gets the name of the collectable item.
-				UE_LOG(LogTemp, Display, TEXT("You have key: %s"), *keyItemName); // Logs the name of the collected item.
+				playerInventory.Add(keyItem->GetItemName()); // Adds the item to the player's inventory.
+				UE_LOG(LogTemp, Display, TEXT("You have key: %s"), *keyItem->GetItemName()); // Logs the name of the collected item.
+				keyItem->Destroy(); // Destroys the item in the world.
 			}
 		}
 		else if (hitActor->ActorHasTag("Lock"))
@@ -104,6 +104,18 @@ void ADungeonEscapeCharacter::Interact()
 			if (lock)
 			{
 				UE_LOG(LogTemp, Display, TEXT("You are interacting with a lock: %s"), *lock->GetLockName()); // Logs that the player is interacting with a lock.
+
+				if (playerInventory.Contains(lock->GetLockName()) && !lock->GetIsKeyItemPlaced()) // If the player has the key item and it is not already placed in the lock
+				{ 
+					lock->SetIsKeyItemPlaced(true); // Place the key item in the lock
+					playerInventory.Remove(lock->GetLockName()); // Remove the key item from the player's inventory
+					UE_LOG(LogTemp, Display, TEXT("You have unlocked the passage!")); // Logs that the lock has been unlocked.
+				}
+				else if (!playerInventory.Contains(lock->GetLockName()) && lock->GetIsKeyItemPlaced())
+				{
+					playerInventory.Add(lock->GetLockName()); // Add the key item back to the player's inventory
+					lock->SetIsKeyItemPlaced(false); // Remove the key item from the lock
+				}
 			}
 		}
 	}
