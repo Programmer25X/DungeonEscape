@@ -1,30 +1,33 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "KeyItem.h"
+#include "HiddenCollectable.h"
 
 // Sets default values
-AKeyItem::AKeyItem()
+AHiddenCollectable::AHiddenCollectable()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Tags.Add("KeyItem"); // Adds the "KeyItem" tag to the actor
+	Tags.Add("CollectableItem");
 }
 
 // Called when the game starts or when spawned
-void AKeyItem::BeginPlay()
+void AHiddenCollectable::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void AKeyItem::Tick(float DeltaTime)
+void AHiddenCollectable::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-FString AKeyItem::GetKeyName() { return KeyName; } // Getter for itemName
+FString AHiddenCollectable::GetCollectableName()
+{
+	return collectableItemName;
+}
 

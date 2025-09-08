@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "KeyItem.h"
 #include "Lock.h"
+#include "HiddenCollectable.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "EnhancedInputComponent.h"
@@ -93,8 +94,8 @@ void ADungeonEscapeCharacter::Interact()
 
 			if(keyItem)
 			{
-				playerInventory.Add(keyItem->GetItemName()); // Adds the item to the player's inventory.
-				UE_LOG(LogTemp, Display, TEXT("You have key: %s"), *keyItem->GetItemName()); // Logs the name of the collected item.
+				playerInventory.Add(keyItem->GetKeyName()); // Adds the item to the player's inventory.
+				UE_LOG(LogTemp, Display, TEXT("You have found key: %s"), *keyItem->GetKeyName()); // Logs the name of the collected item.
 				keyItem->Destroy(); // Destroys the item in the world.
 			}
 		}
@@ -103,8 +104,6 @@ void ADungeonEscapeCharacter::Interact()
 			ALock* lock = Cast<ALock>(hitActor);
 			if (lock)
 			{
-				UE_LOG(LogTemp, Display, TEXT("You are interacting with a lock: %s"), *lock->GetLockName()); // Logs that the player is interacting with a lock.
-
 				if (playerInventory.Contains(lock->GetLockName()) && !lock->GetIsKeyItemPlaced()) // If the player has the key item and it is not already placed in the lock
 				{ 
 					lock->SetIsKeyItemPlaced(true); // Place the key item in the lock
@@ -116,6 +115,15 @@ void ADungeonEscapeCharacter::Interact()
 					playerInventory.Add(lock->GetLockName()); // Add the key item back to the player's inventory
 					lock->SetIsKeyItemPlaced(false); // Remove the key item from the lock
 				}
+			}
+		}
+		else if (hitActor->ActorHasTag("CollectableItem"))
+		{
+			AHiddenCollectable* hiddenCollectable = Cast<AHiddenCollectable>(hitActor);
+			if (hiddenCollectable)
+			{
+				UE_LOG(LogTemp, Display, TEXT("You have found a hidden collectable: %s"), *hiddenCollectable->GetCollectableName());
+				hiddenCollectable->Destroy(); 
 			}
 		}
 	}

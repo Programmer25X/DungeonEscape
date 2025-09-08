@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "KeyItem.generated.h"
+#include "HiddenCollectable.generated.h"
 
 UCLASS()
-class DUNGEONESCAPE_API AKeyItem : public AActor
+class DUNGEONESCAPE_API AHiddenCollectable : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AKeyItem();
+	AHiddenCollectable();
 
 protected:
 	// Called when the game starts or when spawned
@@ -23,8 +23,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	FString GetKeyName(); // Getter for itemName
+	FString GetCollectableName(); 
 
 private:
-	UPROPERTY(EditAnywhere) FString KeyName; // Name of the collectable item
+	UPROPERTY(editAnywhere) FString collectableItemName;
 };
