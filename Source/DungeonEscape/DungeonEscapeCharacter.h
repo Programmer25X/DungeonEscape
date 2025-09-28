@@ -5,12 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "MyWidget_PlayerHUD.h"
 #include "DungeonEscapeCharacter.generated.h"
 
 class UInputComponent;
 class USkeletalMeshComponent;
 class UCameraComponent;
 class UInputAction;
+class MyWidget_PlayerHUD;
 struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
@@ -100,8 +102,9 @@ private:
 
 	UPROPERTY(EditAnywhere, meta = (ClampMin = "300.0")) float interactDistance = 300.0f; // How far the player can reach to interact with in-game objects. 
 	UPROPERTY(EditAnywhere, meta = (ClampMin = "10.0")) float interactSphereRadius = 10.0f; // The radius of the sphere trace for interaction
-
 	UPROPERTY(VisibleAnywhere) TArray<FString> playerInventory; // The player's inventory to store collected items.
+
+	UMyWidget_PlayerHUD* playerHUD; 
 
 };
 

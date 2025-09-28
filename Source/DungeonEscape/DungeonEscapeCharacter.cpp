@@ -6,6 +6,8 @@
 #include "KeyItem.h"
 #include "Lock.h"
 #include "HiddenCollectable.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
+#include "MyWidget_PlayerHUD.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "EnhancedInputComponent.h"
@@ -123,7 +125,23 @@ void ADungeonEscapeCharacter::Interact()
 			if (hiddenCollectable)
 			{
 				UE_LOG(LogTemp, Display, TEXT("You have found a hidden collectable: %s"), *hiddenCollectable->GetCollectableName());
-				hiddenCollectable->Destroy(); 
+				if (!playerHUD)
+				{
+					TArray<UUserWidget*> foundWidgets;
+					UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), foundWidgets, UMyWidget_PlayerHUD::StaticClass(), false);
+
+					if (foundWidgets.Num() > 0)
+					{
+						playerHUD = Cast<UMyWidget_PlayerHUD>(foundWidgets[0]);
+					}
+				}
+
+				if (playerHUD)
+				{
+					playerHUD->SetNotificationText(hiddenCollectable->GetCollectableName());
+				}
+
+				hiddenCollectable->Destroy();
 			}
 		}
 	}
