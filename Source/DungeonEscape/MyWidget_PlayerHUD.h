@@ -21,10 +21,12 @@ private:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget, AllowPrivateAccess = "true")) UCanvasPanel* mainCanvas;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget, AllowPrivateAccess = "true")) UTextBlock* notificationText;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget, AllowPrivateAccess = "true")) UTextBlock* numberCollectedText; 
 
 public: 
 
 	void SetNotificationText(FString collectableName);
+	void SetCollectablesCollected(unsigned int numCollected);
 	void ClearNotificationText();
 
 };

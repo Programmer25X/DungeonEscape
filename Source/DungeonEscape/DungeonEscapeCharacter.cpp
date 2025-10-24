@@ -15,6 +15,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "DungeonEscape.h"
 
+unsigned int collectablesCollected = 0;
+
 ADungeonEscapeCharacter::ADungeonEscapeCharacter()
 {
 	// Set size for collision capsule
@@ -125,6 +127,8 @@ void ADungeonEscapeCharacter::Interact()
 			if (hiddenCollectable)
 			{
 				UE_LOG(LogTemp, Display, TEXT("You have found a hidden collectable: %s"), *hiddenCollectable->GetCollectableName());
+				collectablesCollected++; 
+
 				if (!playerHUD)
 				{
 					TArray<UUserWidget*> foundWidgets;
@@ -139,6 +143,7 @@ void ADungeonEscapeCharacter::Interact()
 				if (playerHUD)
 				{
 					playerHUD->SetNotificationText(hiddenCollectable->GetCollectableName());
+					playerHUD->SetCollectablesCollected(collectablesCollected); 
 				}
 
 				hiddenCollectable->Destroy();

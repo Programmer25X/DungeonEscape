@@ -17,6 +17,14 @@ void UMyWidget_PlayerHUD::SetNotificationText(FString collectableName)
 	}
 }
 
+void UMyWidget_PlayerHUD::SetCollectablesCollected(unsigned int numCollected)
+{
+	if (numberCollectedText)
+	{
+		numberCollectedText->SetText(FText::FromString(FString::Printf(TEXT("Collectables Found: %d/4"), numCollected)));
+	}
+}
+
 void UMyWidget_PlayerHUD::ClearNotificationText()
 {
 	if (notificationText)
