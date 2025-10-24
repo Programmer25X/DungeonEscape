@@ -12,6 +12,7 @@ class UTextBlock;
 /**
  * 
  */
+
 UCLASS()
 class DUNGEONESCAPE_API UMyWidget_PlayerHUD : public UUserWidget
 {
@@ -25,8 +26,8 @@ private:
 
 public: 
 
-	void SetNotificationText(FString collectableName);
-	void SetCollectablesCollected(unsigned int numCollected);
-	void ClearNotificationText();
+	void SetNotificationText(FString collectableName); /// Sets the notification text when a collectable is found.
+	void SetCollectablesCollected(unsigned int numCollected); /// Sets the text for the number of collectables found.
+	void ClearNotificationText(); /// Clears the notification text after a delay.
 
 };

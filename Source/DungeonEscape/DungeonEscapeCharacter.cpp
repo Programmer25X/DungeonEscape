@@ -121,18 +121,19 @@ void ADungeonEscapeCharacter::Interact()
 				}
 			}
 		}
-		else if (hitActor->ActorHasTag("CollectableItem"))
+		else if (hitActor->ActorHasTag("CollectableItem")) // Checks if the hit actor has the "CollectableItem" tag.
 		{
 			AHiddenCollectable* hiddenCollectable = Cast<AHiddenCollectable>(hitActor);
+
 			if (hiddenCollectable)
 			{
-				UE_LOG(LogTemp, Display, TEXT("You have found a hidden collectable: %s"), *hiddenCollectable->GetCollectableName());
-				collectablesCollected++; 
+				UE_LOG(LogTemp, Display, TEXT("You have found a hidden collectable: %s"), *hiddenCollectable->GetCollectableName()); // Logs the name of the collected item.
+				collectablesCollected++; // Increments the number of collectables collected.
 
 				if (!playerHUD)
 				{
 					TArray<UUserWidget*> foundWidgets;
-					UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), foundWidgets, UMyWidget_PlayerHUD::StaticClass(), false);
+					UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), foundWidgets, UMyWidget_PlayerHUD::StaticClass(), false); // Finds all widgets of the specified class UMyWidget_PlayerHUD.
 
 					if (foundWidgets.Num() > 0)
 					{
@@ -142,11 +143,11 @@ void ADungeonEscapeCharacter::Interact()
 
 				if (playerHUD)
 				{
-					playerHUD->SetNotificationText(hiddenCollectable->GetCollectableName());
-					playerHUD->SetCollectablesCollected(collectablesCollected); 
+					playerHUD->SetNotificationText(hiddenCollectable->GetCollectableName()); // Updates the HUD with the name of the collected item.
+					playerHUD->SetCollectablesCollected(collectablesCollected);  //	Updates the HUD with the number of collectables collected.
 				}
 
-				hiddenCollectable->Destroy();
+				hiddenCollectable->Destroy(); // Destroys the item in the world.
 			}
 		}
 	}
